@@ -12,12 +12,12 @@ class RollerCoasterNotFoundException(name: String) : RuntimeException("RollerCoa
 class RollerCoasterController(private val repository: RollerCoasterRepository) {
     @GetMapping("")
     fun allRollercasters(): List<RollerCoasterDto> {
-        return repository.getAll().map{ RollerCoasterDto.from(it) }
+        return repository.getAll().map{ it.toDto() }
     }
 
     @GetMapping("/{name}")
     fun getRollerCoaster(@PathVariable name: String): RollerCoasterDto {
         val coaster = repository.find(name) ?: throw RollerCoasterNotFoundException(name)
-        return RollerCoasterDto.from(coaster)
+        return coaster.toDto()
     }
 }
